@@ -1,6 +1,7 @@
-package com.xenia.customviewterminal
+package com.xenia.customviewterminal.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.customviewterminal.ui.theme.CustomViewTerminalTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,12 +20,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CustomViewTerminalTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                val viewModel: TerminalViewModel = viewModel()
+                val screenState = viewModel.state.collectAsState()
+                when (val currentState = screenState.value) {
+                    is TerminalScreenState.Content -> {
+                        Log.d("MainActivity", currentState.barList.toString())
+                    }
 
+                    is TerminalScreenState.Initial -> {
+
+                    }
                 }
             }
         }
