@@ -12,18 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CustomViewTerminalTheme {
-                val viewModel: TerminalViewModel = viewModel()
-                val screenState = viewModel.state.collectAsState()
-
-                when (val currentState = screenState.value) {
-                    is TerminalScreenState.Content -> {
-                        Terminal(bars = currentState.barList)
-                    }
-
-                    is TerminalScreenState.Initial -> {
-
-                    }
-                }
+                Terminal()
             }
         }
     }
